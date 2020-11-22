@@ -1,6 +1,6 @@
 # Description
 Code to make an Arduino-based air sensor unit, which can work alone or in combination with a PC.
-When the CO2 goes above a given threshold, there is a visual alarm.
+When the CO2 concentration goes above a given threshold, there is a visual alarm.
 It can be used, for instance, to determine when a room must be ventilated.
 
 # Air sensor unit
