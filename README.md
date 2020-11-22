@@ -1,5 +1,5 @@
 # Description
-Code to make an Arduino-based air sensor unit, which can work alone or in combination with a PC.
+Code and schematics to make an Arduino-based air sensor unit, which can work alone or in combination with a PC.
 When the CO2 concentration goes above a given threshold, there is a visual alarm.
 It can be used, for instance, to determine when a room must be ventilated.
 
@@ -10,6 +10,7 @@ The sensor unit is based on the following components:
 * I2C LCD display.
 * Two LEDs connect to digital pins 2 and 3.
 * Source code in folder [`ArduinoSensorCO2`](/ArduinoSensorCO2).
+* Schematics in folder [`Schematics`](/Schematics).
 
 # Real-time data plotter
 A simple piece of Processing code is included to plot the data sent by the sensor unit in real time.
