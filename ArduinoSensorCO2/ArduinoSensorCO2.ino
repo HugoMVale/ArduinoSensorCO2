@@ -177,7 +177,7 @@ void StateCO2(uint16_t valueCO2, bool timeReadFlag){
   resultLast = result;
 }
 
-/* Makes led blink FOREVER */
+/* Makes LED blink FOREVER */
 void BlinkForeverLED(uint8_t pin, uint16_t duration){
   while(true){
   digitalWrite(pin, HIGH);
@@ -270,8 +270,6 @@ void CheckSerial(bool &result){
         char ch = Serial.read();
         if(ch == key){
           result = true;
-          //Serial.write(ch);
-          //Serial.write(',');
           Serial.println("<H>");
         }
     }
