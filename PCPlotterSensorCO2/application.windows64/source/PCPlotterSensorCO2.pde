@@ -1,6 +1,8 @@
 /*
 Processing code to plot data from air sensor in real time
 Heavily inspired from the example code of the GraphClass.
+See: https://github.com/sebnil/RealtimePlotter
+
 Hugo
 20/11/2020
 */
@@ -120,7 +122,8 @@ void draw() {
             for (int k=0;k<yValues.length; k++){
               yValues[k] = max(yMin[j],min(yMax[j],yValues[k])); // otherwise it will plot beyond range 
             }
-            indexStart = (nSteps-1) - nX*timeUpdate*60/timeStep; 
+            indexStart = (nSteps-1) - nX*timeUpdate*60/timeStep;
+            indexStart = max(0,indexStart);
             LineGraph[j].LineGraph(subset(lineGraphSampleNumbers,indexStart), subset(yValues,indexStart));
           }
         }
