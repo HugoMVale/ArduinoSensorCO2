@@ -13,7 +13,7 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <I2Cdev.h>
-#include "Adafruit_CCS811.h"
+#include "ccs811.h"
 
 /* Start of USER settings */
  
@@ -32,7 +32,7 @@ const uint16_t MaxCO2 = 1000;              // Maximum CO2 Level
 
 // Periods of read and write
 const uint16_t periodReadSensor = 2000;   // How often measurements are made (ms)
-const uint16_t periodWritePC = 5000;     // How often values are sent to PC (ms)
+const uint16_t periodWritePC = 5000;      // How often values are sent to PC (ms)
 
 //  Baud rate for serial port
 const uint32_t baudRate = 57600;  
@@ -43,12 +43,11 @@ const uint32_t baudRate = 57600;
 LiquidCrystal_I2C lcd(0x27,LCD_COLS,LCD_ROWS);
 
 // CCS Sensor
-Adafruit_CCS811 ccs;
+CCS811 ccs;
 
 // Global variables
 float temp;
-uint16_t valueCO2, valueTVOC;
-uint8_t statusCCS;
+uint16_t valueCO2, valueTVOC, statusCCS;
 uint32_t timeStart, timeNow, timeSinceStart;
 bool serialState = false;
 
@@ -75,16 +74,19 @@ void setup() {
   digitalWrite(PIN_RED_LED, LOW);
   
   // Initialize CCS sensor
+  ccs.set_i2cdelay(50);
   statusCCS = ccs.begin();
   if(!statusCCS){
     Write2LinesLCD("ERROR:", "Init CCS sensor");
     BlinkForeverLED(PIN_RED_LED,200);
   }
 
-  // Calibrate temperature sensor
-  while(!ccs.available());
-  //temp = ccs.calculateTemperature(); // This board does not have temperature sensor
-  ccs.setTempOffset(0);
+  // Start measuring
+  statusCCS = ccs.start(CCS811_MODE_1SEC);
+  if(!statusCCS){
+    Write2LinesLCD("ERROR:", "Start CCS sensor");
+    BlinkForeverLED(PIN_RED_LED,200);
+  }
 
   // Start counting time
   timeStart = millis();
@@ -126,14 +128,9 @@ void loop() {
 }
 
 /* Reads values from CCS sensor */
-void ReadCCS(float &temp, uint16_t &valueCO2, uint16_t &valueTVOC, uint8_t &statusCCS){
-  if(ccs.available()){
-    statusCCS = ccs.readData();
-    if(statusCCS<1){
-      valueCO2 = ccs.geteCO2();
-      valueTVOC = ccs.getTVOC();
-    }
-  }
+void ReadCCS(float &temp, uint16_t &valueCO2, uint16_t &valueTVOC, uint16_t &statusCCS){
+  uint16_t raw;
+  ccs.read(&valueCO2,&valueTVOC,&statusCCS,&raw);
 }
 
 /* Writes CO2 state to LEDs and LCD */
