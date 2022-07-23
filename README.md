@@ -5,6 +5,9 @@ Code and schematic to make an Arduino-based air sensor unit, which can work alon
 When the CO2 concentration goes above a given threshold, there is a visual alarm.
 It can be used, for instance, to determine when a room must be ventilated.
 
+<img src="Pics/SensorUnit.JPG" alt="CO2 sensor unit" width=800>
+<img src="Pics/PC_realtime_plotter.PNG" alt="Real time plot" width=800>
+
 ## Air sensor unit
 The sensor unit is based on the following components:
 * Arduino Uno.
